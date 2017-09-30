@@ -1,0 +1,175 @@
+<ion-header>
+	<ion-navbar>
+		<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
+		<ion-title>My Cart ({{cartList.length}})</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<section class="empty-state-wrapper" *ngIf="!cartList.length && !loading">
+		<img src="assets/imgs/cart_empty.png" />
+	</section>
+	<!-- <button ion-button block menuToggle>Toggle Menu</button> -->
+	<section class="shopping-cart-wrapper" *ngIf="cartList.length && !loading">
+
+	<!-- section #1 Cart Summary & Coupon -->
+		<section *ngIf="!sectionOnDisplay">
+			<ion-list class="cart-list-wrapper">
+				<ion-item *ngFor="let item of cartList">
+
+					<div class="each-cart-item">
+						<!-- <ion-thumbnail item-start item-left>
+							<img class="card-img" src="{{item.imageUrl|| 'assets/imgs/home-bg-1.jpg'}}" (click)="redirectToProductDetails(item)" />
+						</ion-thumbnail> -->
+						<cracker-item [data]="item" class="disp-inline-flex"></cracker-item>
+						<div>
+							<!-- <h2>{{item.productName}}</h2>
+							<p>{{item.brand}}</p> -->
+							<div class="qty-section">
+								<button ion-button color="danger" class="qty-action" (click)="removeFromCart(item)">-</button>
+								<div class="qty-selected">
+									<button ion-button class="cart-style half-width disp-inline-block product-cart-count">
+										<ion-icon  class="margin-right-5" name="cart"></ion-icon>
+										<span>{{item.cartQuantity || "0"}}</span>
+									</button>
+								</div>
+								<button ion-button color="secondary" class="qty-action"(click)="addToCart(item)">+</button>
+							</div>
+							<hr/>
+							<div>
+								<p class="margin-top-10 text-center">Rs. {{item.totalAmount || "0"}}</p>
+							</div>
+						</div>
+					</div>
+					<!-- <div *ngIf="item.cartQuantity">
+						<hr/>
+						<p class="margin-top-10 pull-right">Rs. {{item.totalAmount}}</p>
+					</div> -->
+				</ion-item>
+			</ion-list>
+			<div class="discount-section" *ngIf="false">
+				<ion-list class="coupon-code-ion-list">
+				  <ion-item class="coupon-code-ion-item">
+				    <ion-label floating>Enter Coupon Code</ion-label>
+				    <ion-input type="text" [(ngModel)]="couponCode"></ion-input>
+				  </ion-item>
+				</ion-list>
+				<button ion-button outline color="danger" class="apply-coupon" clear (click)="applyCouponCode()" [attr.disabled]="disableApplyCoupon() == true ? true : null">Apply Coupon</button>
+			</div>
+			<div class="margin-top-10 margin-bottom-10 {{couponApplicability}}" *ngIf="couponApplicabilityMsg">
+				{{couponApplicabilityMsg}}
+			</div>
+			<div class="cart-total-wrapper margin-bottom-10">
+				<span>Total</span><span> Rs. {{grandTotal}}</span>
+			</div>
+			<div class="disp-flex-center-xy">
+				<button class="margin-top-10 margin-bottom-10 place-order" color="danger" ion-button (click)="onClickContinue()" [attr.disabled]="disableContinue() == true ? true : null"
+				>Continue</button>
+			</div>
+		</section>
+
+	<!-- section 2 Address & payment mode -->
+
+		<section class="shopping-cart-wrapper" *ngIf="sectionOnDisplay==1">
+			<div class="disp-flex">
+				<button class="margin-top-10 margin-bottom-10 go-back" color="light" ion-button (click)="onClickBack()">
+					<ion-icon name="arrow-back" class="margin-right-5"></ion-icon>Previous
+				</button>
+			</div>
+			<ion-list radio-group [(ngModel)]="selectedDeliveryAddressId">
+				<div class="cart-page-heading">Choose delivery address</div>
+				<div>
+					<button ion-button clear (click)="onClickAddNewAddress()">+ Add new address</button>
+				</div>
+				<hr/>
+				<ion-item *ngFor="let address of addressList" class="ion-label-override">
+					<ion-radio (click)="onSelectAddress(address)" value="{{address.addressId}}"></ion-radio>
+					<ion-label>
+						{{address.addressLine1}}<br/>
+						{{address.addressLine2}}<br/>
+						{{address.city}}<br/>
+						{{address.state}}<br/>
+						{{address.pinCode}}<br/>
+						<small><b>Contact No: </b></small>{{address.contactNo}}<br/>
+						<span *ngIf="address.alternateContact"><b><small>Alternate Contact No: </small></b>{{address.alternateContact}}</span>
+					</ion-label>
+				</ion-item>
+			</ion-list>
+			<ion-list radio-group [(ngModel)]="selectedPaymentMethod">
+				<div class="cart-page-heading">Choose Payment mode</div>
+				<hr/>
+				<ion-item>
+					<ion-radio checked="false" (click)="onSelectPaymentMode('cod')" ></ion-radio>
+					<ion-label>Cash On Delivery</ion-label>
+				</ion-item>
+				<ion-item *ngIf="false">
+					<ion-radio checked="false" (click)="onSelectPaymentMode('online')" ></ion-radio>
+					<ion-label>Online</ion-label>
+				</ion-item>
+			</ion-list>
+			<div class="disp-flex-center-xy">
+				<button class="margin-top-10 margin-bottom-10 place-order" color="danger" ion-button (click)="onClickPlaceOrder()" [attr.disabled]="disablePlaceOrder() == true ? true : null">Place Order</button>
+			</div>
+		</section>
+
+	<!-- section 3 Add Addres -->
+		<section class="shopping-cart-wrapper" *ngIf="sectionOnDisplay==2">
+			<!-- <div class="disp-flex-center-xy">
+				<button class="margin-top-10 margin-bottom-10" color="danger" ion-button (click)="onClickBackToChooseAddress()">Cancel</button>
+				<button class="margin-top-10 margin-bottom-10" color="secondary" ion-button (click)="doAddAddress()">Add Address</button>
+			</div> -->
+			<div class="add-address-section full-height">
+				<div class="add-address-form-wrapper">
+					<h3 class="box-title disp-block">Add Address</h3>
+					<ion-list>
+
+						<ion-item>
+							<ion-label floating>Address Line 1 </ion-label>
+							<ion-input type="text" [(ngModel)]="newAddress.addressLine1" (change)="validateText(newAddress.addressLine1,'addressLine1Invalid')" ></ion-input>
+						</ion-item>
+						<ion-item *ngIf="newAddress.addressLine1Invalid" class="validation-error">Enter {{ADDRESS_MIN_LENGTH}}-{{ADDRESS_MAX_LENGTH}} characters.</ion-item>
+
+						<ion-item>
+							<ion-label floating>Address Line 2 </ion-label>
+							<ion-input type="text" [(ngModel)]="newAddress.addressLine2" (change)="validateText(newAddress.addressLine2,'addressLine2Invalid')"></ion-input>
+						</ion-item>
+						<ion-item *ngIf="newAddress.addressLine2Invalid" class="validation-error">Enter {{ADDRESS_MIN_LENGTH}}-{{ADDRESS_MAX_LENGTH}} characters.</ion-item>
+
+						<ion-item>
+							<ion-label floating>City</ion-label>
+							<ion-input type="text" [(ngModel)]="newAddress.city" (change)="validateText(newAddress.city,'cityInvalid')"></ion-input>
+						</ion-item>
+						<ion-item *ngIf="newAddress.cityInvalid" class="validation-error">Enter {{ADDRESS_MIN_LENGTH}}-{{ADDRESS_MIN_LENGTH}} characters.</ion-item>
+
+						<ion-item>
+							<ion-label floating>State</ion-label>
+							<ion-input type="text" [(ngModel)]="newAddress.state" (change)="validateText(newAddress.state,'stateInvalid')"></ion-input>
+						</ion-item>
+						<ion-item *ngIf="newAddress.stateInvalid" class="validation-error">Enter {{ADDRESS_MIN_LENGTH}}-{{ADDRESS_MIN_LENGTH}} characters.</ion-item>
+
+						<ion-item>
+							<ion-label floating>Pin Code</ion-label>
+							<ion-input type="number" [(ngModel)]="newAddress.pinCode" (change)="validatePinCode(newAddress.pinCode,'pinCodeInvalid')" maxlength="6"></ion-input>
+						</ion-item>
+						<ion-item *ngIf="newAddress.pinCodeInvalid" class="validation-error">Enter a valid pincode</ion-item>
+
+						<ion-item>
+							<ion-label floating>Contact No</ion-label>
+							<ion-input type="number" [(ngModel)]="newAddress.contactNo" (change)="validateMobileNo(newAddress.contactNo,'contactNoInvalid')" maxlength="10"></ion-input>
+						</ion-item>
+						<ion-item *ngIf="newAddress.contactNoInvalid" class="validation-error">Enter a valid phone No</ion-item>
+
+						<ion-item>
+							<ion-label floating>Alternate Contact No</ion-label>
+							<ion-input type="number" [(ngModel)]="newAddress.alternateContact" (change)="validateMobileNo(newAddress.alternateContact,'alternateContactInvalid')" maxlength="10"></ion-input>
+						</ion-item>
+						<ion-item *ngIf="newAddress.alternateContactInvalid" class="validation-error">Enter a valid phone No</ion-item>
+
+					</ion-list>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect margin-top-10 margin-bottom-10" color="danger" ion-button (click)="onClickBackToChooseAddress()">Cancel</button>
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect margin-top-10 margin-bottom-10" color="secondary" ion-button (click)="doAddAddress()" [attr.disabled]="disableAddAddress() == true ? true : null" >Add Address</button>
+				</div>
+			</div>
+		</section>
+
+	</section>
+</ion-content>

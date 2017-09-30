@@ -1,0 +1,30 @@
+page-listing {
+	.listing-wrapper{
+		.sort-and-filter-wrapper{
+			padding-top: 12px;
+			display: flex;
+			flex-wrap: wrap;
+			background-color: $dark-grey-theme;
+			justify-content: space-around;
+			.selection-box{
+				width: 45%;
+			}
+			.item-inner{
+				border : none;
+			}
+		}
+		.card-section-lg-wrapper{
+			text-align: center;
+			.card-section-inner-wrapper{
+				display: flex;
+			    flex-wrap: wrap;
+			    justify-content: center;
+			    padding: 5px;
+			    background-color: $dark-grey-theme;
+			    .listing-card-outer-wrapper{
+			    	padding: 0 !important;
+			    }
+			}
+		}
+	}
+}

@@ -1,0 +1,61 @@
+<div class="login-screen" [ngClass]="{'slide-in' : !slideOutLoginPopup, 'slide-out': slideOutLoginPopup}">
+	<page-login class="full-height"></page-login>
+</div>
+
+<!-- loading show  -->
+<div class="root-loading-screen" [ngClass]="{'disp-block' : showLoading, 'disp-none': !showLoading}">
+	<show-loading></show-loading>
+</div>
+
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <div>
+          <h5>
+            <span class="pull-left" *ngIf="!appService.getUserName()">Hello Guest</span>
+            <span class="pull-left" *ngIf="appService.getUserName()">Hello {{appService.getUserName()}}</span>
+            <ion-icon class="pull-right" (click)="openPage('loginPage');" menuToggle name="log-in" class="login-action" *ngIf="!(appService.getUserId()>0)"> Login </ion-icon>
+            <ion-icon class="pull-right" (click)="doLogout()" menuToggle name="log-out" class="login-action" *ngIf="appService.getUserId()>0"> LogOut </ion-icon>
+          </h5>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="app-menu-wrapper" >
+    <!-- <img class="loading-image" src="assets/imgs/loading-image-2.gif" /> -->
+    <img class="loading-image" src="assets/imgs/diwali.jpg" />
+    <ion-list>
+      <button menuToggle ion-item (click)="openPage('homePage')" *ngIf="!(appService.getIsAdmin())">
+        Home
+      </button>
+      <button menuToggle ion-item (click)="openPage('listingPage')" *ngIf="!(appService.getIsAdmin())">
+        Explore
+      </button>
+      <button menuToggle ion-item (click)="openPage('shoppingCartPage')" *ngIf="!(appService.getIsAdmin())">
+        Shopping Cart
+      </button>
+       <button menuToggle ion-item (click)="openPage('orderHistoryPage')">
+        <span  *ngIf="!(appService.getIsAdmin())">My Orders</span>
+        <span  *ngIf="(appService.getIsAdmin())">Admin Dashboard</span>
+      </button>
+       <button menuToggle ion-item (click)="openPage('wishlistPage')" *ngIf="!(appService.getIsAdmin())">
+        Wish List
+      </button>
+      <!-- <button menuToggle ion-item (click)="openPage('myAccountPage')">
+        My Account
+      </button>
+      <button menuToggle ion-item (click)="openPage('referralPage')">
+        Refer Friend
+      </button>
+      <button menuToggle ion-item (click)="openPage('settingsPage')">
+        Settings
+      </button>
+      <button menuToggle ion-item (click)="openPage('contactUsPage')">
+        Contact Us
+      </button> -->
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- after log-in show  -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="true"  [ngClass]="{'disp-block' : !showLoading, 'disp-block': showLoading}"></ion-nav>

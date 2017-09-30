@@ -1,0 +1,14 @@
+{
+  "name": "crackerz",
+  "app_id": "25c62450",
+  "proxies": [
+    {
+      "path": "crackersapp.us-east-2.elasticbeanstalk.com",
+      "proxyUrl": "crackersapp.us-east-2.elasticbeanstalk.com"
+    }
+  ],
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

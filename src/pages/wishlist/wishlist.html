@@ -1,0 +1,40 @@
+<ion-header>
+	<ion-navbar>
+		<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
+		<div class="disp-flex-header">
+			<ion-title>My Wishlist ({{list.length}})</ion-title>
+			<span class="pull-right header-cart cursor-pointer disp-flex-center-y" (click)="appService.redirectToShoppingCartPage()">
+				<small class="margin-right-5" *ngIf="appService.cartCount">Check Out</small>
+				<ion-icon class="margin-right-5" ios="ios-cart" md="md-cart"></ion-icon>
+				<small>{{appService.cartCount || "0"}}</small>
+			</span>
+		</div>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<section class="empty-state-wrapper" *ngIf="!list.length && !loading">
+		<img src="assets/imgs/wishlist_empty.png" />
+	</section>
+	<!-- <button ion-button block menuToggle>Toggle Menu</button> -->
+	<section class="shopping-cart-wrapper" *ngIf="list.length && !loading">
+		<section class="shopping-cart-wrapper">
+			<ion-list class="cart-list-wrapper">
+				<ion-item *ngFor="let item of list">
+					<div class="each-cart-item">
+						<!-- <ion-thumbnail item-start item-left>
+							<img src="assets/imgs/home-bg-1.jpg"/>
+						</ion-thumbnail> -->
+						<cracker-item [data]="item"></cracker-item>
+						<div>
+							<!-- <h2>{{item.productName}}</h2>
+							<p>{{item.brand}}</p>									 -->
+							<button ion-button rounded color="secondary"(click)="moveToCart(item)" class="add-to-wishlist-action">Move to cart</button>
+							<br/>
+							<button ion-button rounded color="danger" (click)="removeFromWishlist(item)" class="remove-from-wishlist-action margin-bottom-10">Remove from <br/>wishlist</button>
+						</div>
+					</div>
+				</ion-item>
+			</ion-list>
+		</section>
+	</section>
+</ion-content>

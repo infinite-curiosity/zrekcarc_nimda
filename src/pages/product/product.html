@@ -1,0 +1,66 @@
+<section class="product-card-outer-wrapper">
+	<ion-card class="product-card-inner-wrapper" *ngIf="item">
+		<img [hidden]="!item.imageLoaded" class="card-img" src="{{item.imageUrl|| 'assets/imgs/home-bg-1.jpg'}}" (click)="redirectToProductDetails(item)" />
+		<article [hidden]="item.imageLoaded" class="home-page-top-slider placeholder-loading card-img-loading" [hidden]="showHomeSlider">
+			<div class="animated-background"></div>
+		</article>
+		<ion-card-content class="card-content-override" (click)="redirectToProductDetails(item)">
+			<ion-card-title class="product-name ellipse">
+	  			{{item.productName}}
+	  		</ion-card-title>
+	  		<div class="card-price-section">
+	  			<span class="product-original-price disp-inline-block" *ngIf="item.discountPercentage">Rs.{{item.price}}</span>
+	  			<div class="discount-section disp-inline-block" *ngIf="item.discountPercentage">
+		      		<span class="discount-label" *ngIf="item.discountPercentage">
+						<span class="discount-value">{{item.discountPercentage.toFixed(0)}}% off</span>
+					</span>
+		      	</div>
+		      	<span class="product-price disp-inline-block" *ngIf="item.discountPercentage">
+	  				<small>Rs.</small><b>{{item.netPrice.toFixed(0)}}</b>
+	  			</span>
+		      	<span class="product-price disp-inline-block" *ngIf="!item.discountPercentage">{{item.price.toFixed(0)}}</span>
+		    </div>
+		    <div class="card-price-section-subtle">
+		    	<span class="product-price disp-inline-block" *ngIf="item.discountPercentage">
+	  				<b>Rs.{{item.netPrice.toFixed(0)}}</b>
+	  			</span>
+	  			<span class="product-original-price disp-inline-block" *ngIf="item.discountPercentage">	{{item.price}}</span>
+	  			<div class="discount-section disp-inline-block" *ngIf="item.discountPercentage">
+		      		<span class="discount-label" *ngIf="item.discountPercentage">
+						<span class="discount-value">- {{item.discountPercentage.toFixed(0)}}%</span>
+					</span>
+		      	</div>
+		      	<span class="product-price disp-inline-block" *ngIf="!item.discountPercentage">Rs.{{item.price.toFixed(0)}}</span>
+		    </div>
+		    <p class="product-brand ellipse">
+	  			{{item.brand}}
+	  		</p>
+		</ion-card-content>
+		<ion-card-content class="ion-card-content-override footer-section">
+			<div class="action-footer">
+				<button ion-button color="secondary" class="add-to-cart" (click)="removeFromCart(item)">
+					<ion-icon ios="ios-remove-circle" md="md-remove-circle"></ion-icon>
+				</button>
+				<div class="cart-quantity">
+					<ion-icon class="disp-inline-block" ios="ios-cart" md="md-cart"></ion-icon>
+					<span class="disp-inline-block" >&nbsp;&nbsp;{{item.cartQuantity}}</span>
+				</div>
+				<button ion-button color="secondary" class="remove-from-cart" (click)="addToCart(item)">
+					<ion-icon ios="ios-add-circle" md="md-add-circle"></ion-icon>
+				</button>
+			</div>
+		</ion-card-content>
+		<div class="header-overlay-section disp-inline-block">
+			 <button ion-button icon-only color="danger" class="wishlist-button is-not-in-wishlist" (click)="setAsFav(item)" *ngIf="!item.isInWishList">
+				<ion-icon name="md-heart-outline" (isActive)='false'></ion-icon>
+			</button>
+
+			<button ion-button icon-only color="danger" class="wishlist-button is-in-wishlist" (click)="unsetAsFav(item)" *ngIf="item.isInWishList">
+				<ion-icon name="md-heart" (isActive)='false'></ion-icon>
+			</button>
+			<!-- <span class="discount-label red disp-inline-block" *ngIf="item.discountPercentage">
+				<span>-{{item.discountPercentage}}%</span>
+			</span> -->
+		</div>
+	</ion-card>
+</section>

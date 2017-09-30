@@ -1,0 +1,67 @@
+page-login {
+	background-color: transparent;// #eee;
+	$login-signup-base :  linear-gradient(to right, #e0eafc, #cfdef3);
+	.fixed-content{
+		background: linear-gradient(to right, #bdc3c7, #2c3e50);//#eee;
+	}
+	.scroll-content{
+		min-height: 100vh;
+		max-height: 100vh;
+		height: auto;
+		width: 100vw;
+	}
+	.login-signup-outer-wrapper{
+		background: transparent !important;
+		min-height: 100vh;
+		height: auto;
+		width: 100vw;
+		*{
+			font-size: 1em !important;
+		}
+		.login-signup-section{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.login-signup-form-wrapper{
+				height: auto;
+				background: $login-signup-base !important;
+				border: 1px solid rgba(0, 0, 0, 0.3);
+				box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+			}
+			.mdl-textfield__error{
+				visibility: visible !important;
+			}
+		}
+		.login-signup-button{
+			pointer-events: none;
+			background-color: rgba(255,255,255,.5);
+		}
+		.login-signup-button-override{
+			pointer-events: all !important;
+			background-color: $theme-secondary !important;
+		}
+		.skip-login{
+			font-weight: bold;
+		}
+		.box-title{
+			font-size: 1.75em !important;
+		}
+		.helper-text-signup{
+			font-size: .75em !important;
+		}
+	}
+	.login-section{
+
+		.login-form-wrapper{
+			width: 85vw;
+			border-radius: 15px;
+			padding: 30px;
+		}
+	}
+	.signup-section{
+		.signup-form-wrapper{
+			width: 100vw;
+			padding: 30px 15%;
+		}
+	}
+}

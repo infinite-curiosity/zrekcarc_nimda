@@ -1,0 +1,89 @@
+show-loading {
+	//background: rgba(0,0,0,0.5) !important;
+	position: fixed;
+	z-index: 9999;
+	opacity: 1;
+	width:100vw;
+	height: 100vh;
+	transition : all 1s ease-in-out;
+	.fixed-content{
+		//background: rgba(0,0,0,0.85) !important;
+		//background: rgba(65,0,147,.85) !important;
+		//background: $theme-base;
+		background: transparent !important;
+	}
+
+}
+
+$finger-theme : rgb(241,194,125);
+$fingerloading-animationtime: .75s;
+ion-backdrop{
+	background-color: rgba(0,0,0,0.75) !important;
+	opacity: 1 !important;
+	transition: all 1s ease-in-out;
+}
+.loading-wrapper{
+	background: transparent !important;
+	//background-color: rgba(0,0,0,0.75) !important;
+	opacity: 1 !important;
+	transition: all 1s ease-in-out;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.app-loading{
+	//$color: #fd7000;
+	//$color: #fff;
+	$color: $theme-base;
+	$size: 5px;
+	height: 100vh !important;
+	$time: .65;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.dank-ass-loader {
+	   display: flex;
+	   flex-direction: column;
+	   align-items: center;
+
+	   .row {
+	      display: flex;
+	   }
+	}
+
+	.arrow {
+	   width: 0;
+	   height: 0;
+	   margin: 0 (-$size / 2);
+	   border-left: $size solid transparent;
+	   border-right: $size solid transparent;
+	   border-bottom: ($size * 1.8) solid $color;
+	   animation: blink $time + s infinite;
+	   filter: drop-shadow(0 0 ($size * 1.5) $color);
+
+	   &.down {
+	      transform: rotate(180deg);
+	   }
+
+	   @for $i from 1 through 18 {
+	      &.outer-#{$i} {
+	         animation-delay: -($time / 18) * $i + s;
+	      }
+	   }
+
+	   @for $i from 1 through 6 {
+	      &.inner-#{$i} {
+	         animation-delay: -($time / 6) * $i + s;
+	      }
+	   }
+	}
+
+	@keyframes blink {
+	  0% { opacity: 1; }
+	  50% { opacity: 1; }
+	  100% { opacity: 0.1; }
+	}
+
+}

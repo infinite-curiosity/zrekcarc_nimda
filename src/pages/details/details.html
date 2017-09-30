@@ -1,0 +1,174 @@
+<ion-header>
+	<ion-navbar>
+		<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
+		<div class="disp-flex-header">
+			<ion-title>{{productName}}</ion-title>
+			<span class="pull-right header-cart cursor-pointer disp-flex-center-y" (click)="appService.redirectToShoppingCartPage()">
+				<small class="margin-right-5" *ngIf="appService.cartCount">Check Out</small>
+				<ion-icon class="margin-right-5" ios="ios-cart" md="md-cart"></ion-icon>
+				<small>{{appService.cartCount || "0"}}</small>
+			</span>
+		</div>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<!-- <button ion-button block menuToggle>Toggle Menu</button> -->
+	<section class="details-wrapper" [hidden]="pageLoading">
+		<h2 class="text-center">
+			{{productName}}  <small> | {{brand}}</small>
+		</h2>
+		<section class="details-page-product-slider">
+			<ion-scroll scrollX="true" class="card-section-lg-wrapper">
+				<div class="card-section-inner-wrapper">
+					<ion-col class="listing-card-outer-wrapper" *ngFor="let slide of productImages">
+						<img src="{{slide.imageUrl}}" class="slide-image"/>
+					</ion-col>
+				</div>
+			</ion-scroll>
+		</section>
+		<!-- <section class="details-page-product-slider">
+			<ion-slides (ionSlideDidChange)="slideChanged()">
+				<ion-slide *ngFor="let slide of productImages">
+					<div>
+						<img src="{{slide.imageUrl}}" class="slide-image"
+						*ngIf="slide.imageUrl">
+					</div>
+					<div class="product-slider-discount" *ngIf="discountPercentage">
+						<span class="disp-inline-block discount-circle">{{discountPercentage}}%<br/>off</span>
+					</div>
+					<div class="product-slider-wishlist" *ngIf="discountPercentage">
+						<button ion-button icon-only color="danger" class="wishlist-button is-not-in-wishlist" (click)="setAsFav(self)" *ngIf="!isInWishList">
+							<ion-icon name="md-heart-outline" (isActive)='false'></ion-icon>
+						</button>
+
+						<button ion-button icon-only color="danger" class="wishlist-button is-in-wishlist" (click)="unsetAsFav(self)" *ngIf="isInWishList">
+							<ion-icon name="md-heart" (isActive)='false'></ion-icon>
+						</button>
+					</div>
+
+				</ion-slide>
+			</ion-slides>
+		</section> -->
+		<section class="product-description-container">
+			<div class="price-section" *ngIf="false">
+				<span class="disp-inline-block margin-right-10 price-section-label">Price : </span>
+				<span class="disp-inline-block margin-right-10 old-price"><small>Rs.</small><b>{{price}}</b></span>
+				<span><small>Rs.</small><b>{{netPrice}}</b></span>
+				<div class="product-slider-discount" *ngIf="discountPercentage">
+					<span class="disp-inline-block discount-circle">{{discountPercentage}}%<div>off</div></span>
+				</div>
+			</div>
+			<div class="card-price-section margin-top-10" *ngIf="price">
+				<span class="disp-inline-block price-section-label">Price : </span>
+				<span class="product-original-price disp-inline-block" *ngIf="discountPercentage">Rs.{{price}}</span>
+				<div class="discount-section disp-inline-block" *ngIf="discountPercentage">
+					<span class="discount-label" *ngIf="discountPercentage">
+					  <span class="discount-value">{{discountPercentage.toFixed(0)}}% off</span>
+				  </span>
+				</div>
+				<span class="product-price disp-inline-block" *ngIf="discountPercentage">
+					<small>Rs.</small><b>{{netPrice}}</b>
+				</span>
+				<span class="product-price disp-inline-block" *ngIf="!discountPercentage">{{price.toFixed(0)}}</span>
+		  </div>
+		</section>
+		<section class="product-description-container margin-top-10">
+			<div class="product-slider-wishlist">
+				<button ion-button icon-only color="danger" class="wishlist-button is-not-in-wishlist" (click)="setAsFav(self)" *ngIf="!isInWishList">
+					<ion-icon name="md-heart-outline" (isActive)='false'></ion-icon>
+				</button>
+
+				<button ion-button icon-only color="danger" class="wishlist-button is-in-wishlist" (click)="unsetAsFav(self)" *ngIf="isInWishList">
+					<ion-icon name="md-heart" (isActive)='false'></ion-icon>
+				</button>
+			</div>
+			<div class="qty-section">
+				<!-- <div>Quantity&nbsp;&nbsp;&nbsp;</div> -->
+				<div class="qty-action" (click)="removeFromCart()">
+					<ion-icon ios="ios-remove-circle" md="md-remove-circle"></ion-icon>
+				</div>
+				<div class="qty-selected">
+					<div>
+						<ion-icon name="cart" class="margin-right-10"></ion-icon>{{cartQuantity}}
+					</div>
+				</div>
+				<div class="qty-action"(click)="addToCart()">
+					<ion-icon ios="ios-add-circle" md="md-add-circle"></ion-icon>
+				</div>
+			</div>
+		</section>
+		<section class="product-description-container line-3">
+			<ion-chip class="in-stock">
+				<ion-label color="secondary" *ngIf="isStockAvailable">In Stock</ion-label>
+				<ion-label color="danger" *ngIf="!isStockAvailable">Out of Stock</ion-label>
+			</ion-chip>
+			<div>
+				<span class="avg-rating-label margin-right-5">Average Rating :</span>
+				<span class="avg-rating-value">{{averageReview + "/5"}}</span>
+			</div>
+		</section>
+		<section class="description-section-wrapper">
+			<div class="description-text-wrapper">
+				<div><h2>Description</h2></div>
+				<p>{{description}}</p>
+			</div>
+		</section>
+		<section class="review-section-wrapper">
+			<div class="write-review-wrapper">
+				<h2>Write a review</h2>
+				<div class="rating-star-section">
+					 <ion-icon class="rating-star" (click) = "setRating(1)" name="md-star-outline" *ngIf="ratingByUser<1"></ion-icon>
+					 <ion-icon class="rating-star" (click) = "setRating(1)" name="md-star" *ngIf="ratingByUser>=1"></ion-icon>
+
+					 <ion-icon class="rating-star" (click) = "setRating(2)" name="md-star-outline" *ngIf="ratingByUser<2"></ion-icon>
+					 <ion-icon class="rating-star" (click) = "setRating(2)" name="md-star" *ngIf="ratingByUser>=2"></ion-icon>
+
+					 <ion-icon class="rating-star" (click) = "setRating(3)" name="md-star-outline" *ngIf="ratingByUser<3"></ion-icon>
+					 <ion-icon class="rating-star" (click) = "setRating(3)" name="md-star" *ngIf="ratingByUser>=3"></ion-icon>
+
+					 <ion-icon class="rating-star" (click) = "setRating(4)" name="md-star-outline" *ngIf="ratingByUser<4"></ion-icon>
+					 <ion-icon class="rating-star" (click) = "setRating(4)" name="md-star" *ngIf="ratingByUser>=4"></ion-icon>
+
+					 <ion-icon class="rating-star" (click) = "setRating(5)" name="md-star-outline" *ngIf="ratingByUser<5"></ion-icon>
+					 <ion-icon class="rating-star" (click) = "setRating(5)" name="md-star" *ngIf="ratingByUser==5"></ion-icon>
+				</div>
+				<div>
+					<textarea class="rating-textarea" placeholder="Optional" [(ngModel)]="reviewTextByUser" (change)="validateReviewText()"></textarea>
+				</div>
+				<div *ngIf="reviewTextByUserInvalid" class="validation-error">Please enter 4-2000 characters</div>
+				<div class="text-center">
+					<button ion-button color="secondary" (click)="submitReview()" [attr.disabled]="disableSubmitReview() == true ? true : null">Submit Review</button>
+				</div>
+			</div>
+			<div class="view-reviews-wrapper">
+				<h2>Read Reviews</h2>
+				<div *ngIf="!reviews || !reviews.length">Be the first one to review this product</div>
+				<div *ngFor="let review of reviews">
+					<hr/>
+					<div>
+						<b>{{review.userName}}</b>
+					</div>
+					<div class="rating-star-section" *ngIf="review.rating">
+						 <ion-icon class="rating-star" name="md-star-outline" *ngIf="review.rating<1"></ion-icon>
+						 <ion-icon class="rating-star" (click) = "setRating(1)" name="md-star" *ngIf="review.rating>=1"></ion-icon>
+
+						 <ion-icon class="rating-star" name="md-star-outline" *ngIf="review.rating<2"></ion-icon>
+						 <ion-icon class="rating-star" (click) = "setRating(2)" name="md-star" *ngIf="review.rating>=2"></ion-icon>
+
+						 <ion-icon class="rating-star" name="md-star-outline" *ngIf="review.rating<3"></ion-icon>
+						 <ion-icon class="rating-star" (click) = "setRating(3)" name="md-star" *ngIf="review.rating>=3"></ion-icon>
+
+						 <ion-icon class="rating-star" name="md-star-outline" *ngIf="review.rating<4"></ion-icon>
+						 <ion-icon class="rating-star" name="md-star" *ngIf="review.rating>=4"></ion-icon>
+
+						 <ion-icon class="rating-star" name="md-star-outline" *ngIf="review.rating<5"></ion-icon>
+						 <ion-icon class="rating-star" name="md-star" *ngIf="review.rating==5"></ion-icon>
+					</div>
+					<div *ngIf="review.reviewText">
+						{{review.reviewText}}
+					</div>
+				</div>
+			</div>
+		</section>
+	</section>
+</ion-content>

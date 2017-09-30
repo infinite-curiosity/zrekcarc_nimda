@@ -1,0 +1,103 @@
+<ion-header>
+	<ion-navbar>
+		<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
+		<ion-title *ngIf="!(appService.getIsAdmin())">My Orders ({{this.totalOrdersCount}})</ion-title>
+		<ion-title *ngIf="(appService.getIsAdmin())" class="margin-left-45">Admin Dashboard</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<!-- <button ion-button block menuToggle>Toggle Menu</button> -->
+	<section class="empty-state-wrapper" *ngIf="!list.length && !loading">
+		<img src="assets/imgs/order_empty.png" />
+	</section>
+	<section class="shopping-cart-wrapper" *ngIf="list.length && !loading">
+		<section class="shopping-cart-wrapper">
+			<!-- <h1 class="text-center margin-bottom-10">My Orders ({{this.totalOrdersCount}}) </h1>
+			<hr/> -->
+			<ion-list class="cart-list-wrapper">
+				<ion-item *ngFor="let item of list">
+					<div [ngClass]="{'each-cart-item-condensed' : !item.viewMoreDetails, 'each-cart-item-expanded': item.viewMoreDetails}">
+						<div>
+							<sub>
+								<span>Order  </span><b>#{{item.orderId}}</b>
+							</sub>
+							<br/>
+							<sub>
+								<span>Order Placed On   </span><b>{{item.orderDate}}</b>
+							</sub>
+							<br/>
+							<ul>
+								<li *ngFor="let orderItem of item.productNames.slice(0,3)">{{orderItem}}</li>
+								<div *ngIf="item.productNames && item.productNames.length>4">and {{item.productNames.length - 4}} more item(s)</div>
+							</ul>
+							<!-- <h2>Lakshmi Vedi</h2>
+							<p>Standard Fireworks</p>
+							<div class="purchase-details">
+								<button ion-button class="cart-style half-width disp-inline-block">
+									<ion-icon name="cart"></ion-icon>  {{item.cartQuantity || "0"}}
+								</button> * 200 = {{(item.cartQuantity||0) * 200}}
+							</div> -->
+							<div class="order-status-wrapper">
+								<div>
+									<button class="order-status" ion-button color="secondary" clear>{{item.orderStatusText}}</button>
+									<button *ngIf="!(appService.getIsAdmin())" class="order-cancel" ion-button color="danger" rounded (click)="cancelOrder(item)">Cancel Order</button>
+									<button *ngIf="(appService.getIsAdmin())" color="secondary" ion-button rounded (click)="showChangeOrderStatus(item)">Change Status</button>
+								</div>
+							</div>
+							<ion-list radio-group  [(ngModel)]="item.selectedOrderStatusId" *ngIf="item.showOrderStatus" class="change-order-status">
+								<ion-item *ngFor="let orderStatus of orderStatusConstants">
+									<ion-radio value="orderStatus.id" (click)="changeOrderStatus(item,orderStatus)"></ion-radio>
+									<ion-label>{{orderStatus.name}}</ion-label>
+								</ion-item>
+								<ion-item>
+									<ion-radio value="10" (click)="hideChangeOrderStatus(item)"></ion-radio>
+									<ion-label>Do nothing</ion-label>
+								</ion-item>
+							</ion-list>
+						</div>
+					</div>
+					<div class="margin-top-10 margin-bottom-10 view-more-wrapper" [ngClass]="{'view-more-wrapper-open' : item.viewMoreDetails, 'view-more-wrapper-close': !item.viewMoreDetails}">
+						<div class="details padding-bottom-0">
+							<b>Order List</b>
+							<ul *ngIf="item.details">
+								<li *ngFor="let orderItem of item.details.productList">
+									<p>{{orderItem.productName}} | <small>{{orderItem.brand}}</small></p>
+								</li>
+							</ul>
+						</div>
+						<div class="details" *ngIf="item.details">
+							<div><b>Delivered to:</b></div>
+							<p>{{item.details.address.addressLine1}}</p>
+							<p>{{item.details.address.addressLine2}}</p>
+							<p>{{item.details.address.city}}</p>
+							<p>{{item.details.address.state}}</p>
+							<p>{{item.details.address.pinCode}}</p>
+							<br/>
+							<div><b>Contact No</b></div>
+							<p>{{item.details.address.contactNo}}</p>
+							<p *ngIf="item.details.address && item.details.address.alternateContact">{{item.details.address.alternateContact}} (Alternate)</p>
+							<br/>
+							<div><b>Payment Mode</b></div>
+							<p>{{item.details.paymentModeText}}</p>
+							<br/>
+							<div *ngIf="item.details.transactionId"><b>Transaction Id</b></div>
+							<p *ngIf="item.details.transactionId">{{item.details.transactionId}}</p>
+							<br *ngIf="item.details.transactionId"/>
+							<div *ngIf="item.details.couponCode"><b>Transaction Id</b></div>
+							<p *ngIf="item.details.couponCode">{{item.details.couponCode}}</p>
+							<br *ngIf="item.details.couponCode"/>
+							<div><b>Total Amount</b></div>
+							<p><b>Rs.{{item.details.totalAmount}}</b> <small *ngIf="item.details.discountAmount">  (You saved Rs.{{item.details.discountAmount.toFixed(0)}} through discount)</small></p>
+						</div>
+					</div>
+					<div class="view-more-less-toggle margin-top-10 margin-bottom-10">
+						<a class="mdl-button--accent" (click)="showMoreDetails(item)" *ngIf="!item.viewMoreDetails">
+						 more  <ion-icon name="md-arrow-down"></ion-icon></a>
+						<a class="mdl-button--accent" (click)="showLessDetails(item)"*ngIf="item.viewMoreDetails">
+						less  <ion-icon name="md-arrow-up"></ion-icon></a>
+					</div>
+				</ion-item>
+			</ion-list>
+		</section>
+	</section>
+</ion-content>

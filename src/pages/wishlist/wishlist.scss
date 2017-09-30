@@ -1,0 +1,54 @@
+my-wishlist {	
+	.shopping-cart-wrapper{
+		max-width: 1024px;
+		margin: auto;
+		.item-inner{
+			border-bottom: none !important;
+		}
+		.cart-list-wrapper{
+			.each-cart-item{
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				border: 1px solid #eee;
+				.product-card-outer-wrapper{
+					height: auto;
+					.product-card-inner-wrapper{
+						box-shadow: none;
+					}
+					.footer-section{
+						display: none;
+					}
+					.header-overlay-section{
+						display: none;
+					}
+					.discount-label{
+						width: 28px;
+					}
+				}
+			}
+			.remove-from-wishlist-action,.add-to-wishlist-action{
+				height: 40px;
+			}
+			.qty-section{
+		    	display: inline-flex;
+		    	justify-content: space-around;
+		    	align-items: center;
+		    	.qty-action{
+		    		text-align: center;
+				    margin: 0 10px;
+				    /*border-radius: 50%;				    */
+				    color: #fff;
+			    }
+			    .cart-style{
+					color: #32db64;
+					background : #fff;
+				}
+		    }
+		}
+		.move-to-cart{
+			background: $theme-secondary;
+			color: #fff;
+		}
+	}
+}
