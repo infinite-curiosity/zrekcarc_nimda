@@ -69,19 +69,11 @@ export class OrderHistoryPage {
 		order.viewMoreDetails = true;
 		this.loadingRef.present();
 		var request, serviceUrl;
-		if(this.appService.getIsAdmin()){
-			 request = {
-				uid: 1
-			};
-			serviceUrl = this.appService.getBaseUrl()+"/admin/getAdminOrderDetailsBeta";
-		}
-		else{
-			request = {
-				uid: this.appService.getUserId(),
-				orderId: order.orderId
-			};
-			serviceUrl = this.appService.getBaseUrl()+"/store/getOrderDetail";
-		}
+		request = {
+			uid: 1,
+			orderId: order.orderId
+		};
+		serviceUrl = this.appService.getBaseUrl()+"/admin/getAdminOrderDetailsBeta";
 		order.loading = true;
 		this.http
 			.post(serviceUrl,request)
