@@ -4,13 +4,12 @@ import {Http} from '@angular/http';
 import { PopoverController } from 'ionic-angular';
 import { AppService } from "../../app/app.service";
 import { FilterComponent } from '../filter/filter';
-import { ProductCreatePage } from '../createproduct/createproduct';
 
 @Component({
-  	selector: 'page-listing',
-  	templateUrl: 'listing.html'
+  	selector: 'create-product',
+  	templateUrl: 'createProduct.html'
 })
-export class ListingPage {
+export class ProductCreatePage {
 	public loadingRef;
 	public pageLoading;
 	public productList;
@@ -19,41 +18,111 @@ export class ListingPage {
 	public sortSelectOptions;
 	public sortOptions;
 	public sortOrder;
+	public selectedBrand;
+	public selectedCategory;
+	public brandSelect = {
+		title: 'Select Brand'
+	};
+	public categorySelect  = {
+		title: 'Select Category'
+	};
+	public productBean;
+	public isCreatePage;
 
 	constructor(public navCtrl: NavController, private http: Http, public navParams: NavParams, public appService : AppService, public popoverCtrl: PopoverController) {
-		this.productList = [];
+		console.info("this.navParams.data",this.navParams.data);
 		this.brandsList = this.appService.getBrandsList();
 		this.categoriesList = this.appService.getCategoriesList();
-		console.info("this.brandsList",this.brandsList);
-		console.info("this.categoriesList",this.categoriesList);
+		this.generateProductBean(this.navParams.data);
+		this.productList = [];
 		this.loadingRef = this.appService.getLoadingRef();
-		this.sortSelectOptions = {
-		  title: 'Sort By'
-		};
-		this.sortOptions = [
-			{
-				id : 1,
-				title : 'Low to High',
-			},
-			{
-				id : 2,
-				title : 'High to Low',
-			},
-			{
-				id : 3,
-				title : 'New Arrivals',
-			},
-			{
-				id : 4,
-				title : 'Discount Rate',
-			}
-			// {
-			// 	id : 0,
-			// 	title : 'None'
-			// }
-		];
-		this.fetchData(this.navParams.data);
 	}
+
+	isEmptyObj(obj){
+		var propCount = 0;
+		for(var key in obj){
+			if(obj.hasOwnProperty(key)){
+				propCount++;
+			}
+		}
+		var isEmpty = (!propCount) ? true : false;
+		return isEmpty;
+	}
+
+	generateProductBean(routeParams){
+		this.isCreatePage = this.isEmptyObj(routeParams);
+
+		if(this.isCreatePage){
+			this.productBean =  {
+				id : null,
+				name : null,
+				brand : null,
+				category : null,
+				price : null,
+				discount : null,
+				inStock : true,
+				computedNetPrice : null,
+				isPriceValid : true,
+				isDiscountValid : true
+			};
+		}
+		else{
+			this.productBean =  {
+				id : routeParams.id,
+				name : routeParams.productName,
+				brand : routeParams.brand,
+				category : routeParams.category,
+				price : routeParams.price,
+				discount : routeParams.discountPercentage,
+				inStock : routeParams.isInStock,
+				computedNetPrice : null,
+				isPriceValid : true,
+				isDiscountValid : true
+			};
+			this.calculateNetPrice();
+			this.selectedBrand = this.brandsList.filter((brand)=>{
+				if(brand.name == this.productBean.brand){
+					return true;
+				}
+				return false;
+			})[0];
+
+		}
+
+	}
+
+	validatePrice(val){
+		if(isFinite(val)){
+			this.productBean.isPriceValid = true;
+			this.calculateNetPrice();
+		}
+		else{
+			this.productBean.isPriceValid = false;
+		}
+	}
+
+	validateDiscount(val){
+		if(isFinite(val)){
+			this.productBean.isDiscountValid = true;
+			this.calculateNetPrice();
+		}
+		else{
+			this.productBean.isDiscountValid = false;
+		}
+	  }
+
+	calculateNetPrice(){
+		if(this.productBean.price && this.productBean.discount && this.productBean.isPriceValid && this.productBean.isDiscountValid){
+			this.productBean.computedNetPrice = this.productBean.price * (1 - (this.productBean.discount / 100));
+		}else{
+			this.productBean.computedNetPrice = null;
+		}
+	}
+
+	disableSave(){
+		var valid = this.productBean.isPriceValid && this.productBean.isDiscountValid;
+		return !valid;
+	  }
 
 	ionViewWillEnter(){
 
@@ -106,6 +175,7 @@ export class ListingPage {
 			.post(serviceUrl,request)
 			.map(res => res.json())
 			.subscribe(res => {
+
 				this.processListingData(res.data);
 				/*if(res.response===200){
 					this.events.publish('logIn', true);
@@ -185,7 +255,23 @@ export class ListingPage {
 		}
 	}
 
-	createProduct(){
-		this.navCtrl.push(ProductCreatePage);
+	onSelectBrand(option){
+		if(option && option.id){
+			// var filterEntitySort = {
+	  		// 	field : 'sort',
+	  		// 	sortId : option.id
+	   		// };
+	   		// this.fetchData([filterEntitySort]);
+		}
+	}
+
+	onSelectCategory(option){
+		if(option && option.id){
+			// var filterEntitySort = {
+	  		// 	field : 'sort',
+	  		// 	sortId : option.id
+	   		// };
+	   		// this.fetchData([filterEntitySort]);
+		}
 	}
 }

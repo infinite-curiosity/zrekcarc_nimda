@@ -25,6 +25,9 @@ import { OrderHistoryPage } from '../pages/orders/orders';
 import { WishlistPage } from '../pages/wishlist/wishlist';
 import { CrackerItem } from '../pages/product/product';
 import { FilterComponent } from '../pages/filter/filter';
+import { CategoriesPage } from '../pages/categories/categories';
+import { BrandsPage } from '../pages/brands/brands';
+import { ProductCreatePage } from '../pages/createproduct/createproduct';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -45,7 +48,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     OrderHistoryPage,
     WishlistPage,
     CrackerItem,
-    FilterComponent
+    FilterComponent,
+    CategoriesPage,
+    BrandsPage,
+    ProductCreatePage
   ],
   imports: [
     BrowserModule,
@@ -74,7 +80,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     OrderHistoryPage,
     WishlistPage,
     CrackerItem,
-    FilterComponent
+    FilterComponent,
+    CategoriesPage,
+    BrandsPage,
+    ProductCreatePage
   ],
   providers: [
     AppService,

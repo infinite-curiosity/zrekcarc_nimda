@@ -1,0 +1,71 @@
+page-listing {	
+	.listing-wrapper{
+		background : $dark-grey-theme !important;
+		.sort-and-filter-wrapper{
+			display: flex;
+			flex-wrap: wrap;
+			background-color: $dark-grey-theme;
+			justify-content: space-around;
+			padding: 0 0.5em;
+			.selection-box{
+				width: 45%;
+			}
+			.item-inner{
+				border : none;
+			}
+			.sort-button{
+				flex: 1;
+				height: auto;
+				padding: 0;
+				background-color: $theme-base;
+				color: $gs-32;
+				display: inline-flex;
+				justify-content: space-around;
+				.sort-icon{
+					transform: rotate(90deg);
+					margin-right: 10px;
+				}
+				.select-icon-inner{
+					color : $gs-32 !important;
+				}
+				.select-text{
+					display: none !important;
+				}
+			}
+			.filter-button{
+				flex: 1;
+				height: auto;
+				padding: 0;
+				background-color: $theme-base;
+				color: $gs-32;
+				display: inline-flex;
+				justify-content: space-around;
+				.filter-icon{
+					margin-right: 10px;
+				}
+			}
+
+		}
+		.card-section-lg-wrapper{
+			text-align: center;
+			.card-section-inner-wrapper{
+				display: flex;
+			    flex-wrap: wrap;
+				justify-content: center;
+				align-items:  stretch;
+				min-height: 100vh;
+				height: auto;
+			    padding: 5px;
+				background-color: $dark-grey-theme;
+				.row-wrapper{
+					display: inline-flex;
+					flex-wrap: wrap;
+					justify-content: space-evenly;
+				}
+			    .listing-card-outer-wrapper{
+			    	padding: 0 !important;
+			    }
+			}
+		}
+	}
+}

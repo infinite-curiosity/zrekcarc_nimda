@@ -29,7 +29,8 @@ $gs-32 : #fff;
 
 $youtube-red:#cd201f;
 $yahoo-vioet : #410093;
-$theme-base : $yahoo-vioet;//$aqua-theme;
+$amazon-blue : #232f3e;
+$theme-base : $amazon-blue; //$yahoo-vioet;//$aqua-theme;
 $theme-secondary : $youtube-red;//$pink-theme;
 
 @import "./src/pages/loading/loading.scss";

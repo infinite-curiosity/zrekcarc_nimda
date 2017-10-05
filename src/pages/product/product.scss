@@ -3,7 +3,7 @@ cracker-item {
 		font-size: .8em;
 		min-width: 130px !important;//160px !important;
 		display: inline-flex;
-		height: 270px;//250px;
+		height: 220px;//270px;//250px;
 		/*padding: 2.5px;*/
 		margin:0;
 		text-align: center;
@@ -25,7 +25,6 @@ cracker-item {
 				width: 125px;
 			}
 			.card-content-override{
-				padding: 0;
 				background: $gs-32;
 				.product-name{
 					font-size: .9em;
@@ -37,6 +36,7 @@ cracker-item {
 					font-weight: 100;
 					padding: 5px 0 0 0;
 				}
+				padding: 0 0 10px 0 !important;
 			}
 			.card-name-section{
 				height: 30px;

@@ -1,0 +1,46 @@
+<ion-header>
+	<ion-navbar>
+		<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
+		<div class="disp-flex-header">
+			<ion-title *ngIf="isCreatePage">Add New Product</ion-title>
+			<ion-title *ngIf="!isCreatePage">Manage Product</ion-title>
+		</div>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<section class="listing-wrapper">
+		<ion-list margin>
+			<ion-item padding>
+				<ion-label floating>Product Name </ion-label>
+				<ion-input type="text" [(ngModel)]="productBean.name"></ion-input>
+			</ion-item>
+			<ion-item padding>
+				<ion-label floating>Full Price </ion-label>
+				<ion-input type="tel" [(ngModel)]="productBean.price" (change)="validatePrice(productBean.price)" ></ion-input>
+			</ion-item>
+			<ion-item padding>
+				<ion-label floating>Discount </ion-label>
+				<ion-input type="tel" [(ngModel)]="productBean.discount" (change)="validateDiscount(productBean.discount)" ></ion-input>
+			</ion-item>
+			<ion-item padding *ngIf="productBean.computedNetPrice">
+				<b style="color:blue">Computed Net Price :  Rs. {{productBean.computedNetPrice.toFixed(2)}}</b>
+			</ion-item>
+			<ion-item padding>
+				<ion-label>Brand</ion-label>
+				<ion-select [(ngModel)]="selectedBrand" [selectOptions]="brandSelect" (ionChange)="onSelectBrand()" okText="Select" cancelText="Cancel">
+					<ion-option *ngFor="let option of brandsList" [value]="option">{{option.name}}</ion-option>
+				</ion-select>
+			</ion-item>
+			<ion-item padding>
+				<ion-label>Category</ion-label>
+				<ion-select [(ngModel)]="selectedCategory" [selectOptions]="categorySelect" (ionChange)="onSelectCategory()" okText="Select" cancelText="Cancel">
+					<ion-option *ngFor="let option of categoriesList" [value]="option">{{option.name}}</ion-option>
+				</ion-select>
+			</ion-item>
+		</ion-list>
+		<button ion-button block (click)="createProduct()" style="width: 95%;height:50px;margin:10px auto;">
+			<span *ngIf="isCreatePage">Create Product</span>
+			<span *ngIf="!isCreatePage">Update Product</span>
+		</button>
+	</section>
+</ion-content>

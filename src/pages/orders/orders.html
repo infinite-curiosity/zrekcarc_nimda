@@ -2,7 +2,7 @@
 	<ion-navbar>
 		<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
 		<ion-title *ngIf="!(appService.getIsAdmin())">My Orders ({{this.totalOrdersCount}})</ion-title>
-		<ion-title *ngIf="(appService.getIsAdmin())" class="margin-left-45">Admin Dashboard</ion-title>
+		<ion-title *ngIf="(appService.getIsAdmin())" class="margin-left-45">Orders</ion-title>
 	</ion-navbar>
 </ion-header>
 <ion-content>

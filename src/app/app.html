@@ -33,25 +33,24 @@
       <button menuToggle ion-item (click)="openPage('shoppingCartPage')" *ngIf="!(appService.getIsAdmin())">
         Shopping Cart
       </button>
-       <button menuToggle ion-item (click)="openPage('orderHistoryPage')">
-        <span  *ngIf="!(appService.getIsAdmin())">My Orders</span>
-        <span  *ngIf="(appService.getIsAdmin())">Admin Dashboard</span>
-      </button>
        <button menuToggle ion-item (click)="openPage('wishlistPage')" *ngIf="!(appService.getIsAdmin())">
         Wish List
       </button>
-      <!-- <button menuToggle ion-item (click)="openPage('myAccountPage')">
-        My Account
+      <button menuToggle ion-item (click)="openPage('orderHistoryPage')">
+        Orders
       </button>
-      <button menuToggle ion-item (click)="openPage('referralPage')">
-        Refer Friend
+      <button menuToggle ion-item (click)="openPage('categoriesPage')">
+        Categories
       </button>
-      <button menuToggle ion-item (click)="openPage('settingsPage')">
-        Settings
+      <button menuToggle ion-item (click)="openPage('brandsPage')">
+        Brands
       </button>
-      <button menuToggle ion-item (click)="openPage('contactUsPage')">
-        Contact Us
-      </button> -->
+      <button menuToggle ion-item (click)="openPage('listingPage')">
+        Products
+      </button>
+      <button menuToggle ion-item (click)="openPage('bannerImages')">
+        Banner Images
+      </button>
 
     </ion-list>
   </ion-content>

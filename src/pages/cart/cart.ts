@@ -137,7 +137,7 @@ export class ShoppingCartPage {
 					this.loadingRef.dismiss();
 					this.loading = false;
 				}catch(e){
-					console.error("error @ ionic loading module");
+
 				}
 			}
        	);
@@ -178,7 +178,7 @@ export class ShoppingCartPage {
   				try{
 					this.loadingRef.dismiss();
 				}catch(e){
-					console.error("error @ ionic loading module");
+
 				}
   			}
   		);
@@ -208,7 +208,7 @@ export class ShoppingCartPage {
 				try{
 					this.loadingRef.dismiss();
 				}catch(e){
-					console.error("error @ ionic loading module");
+
 				}
 			}
 		);
@@ -222,8 +222,8 @@ export class ShoppingCartPage {
 		  addressId: this.selectedDeliveryAddressId,
 		  paymentMode: null,
 		  couponId: 2343,//null,
-		  couponType: 2343,//null
-	  	};
+		  couponType: 2343//null
+	  	}
 
 		if(this.couponApplicability == "applicable"){
 			request.couponId = this.couponCode;

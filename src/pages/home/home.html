@@ -2,97 +2,15 @@
 	<ion-navbar>
 		<div class="disp-flex-header">
 			<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
-			<ion-title class="margin-left-45">Home</ion-title>
-			<span class="pull-right header-cart cursor-pointer disp-flex-center-y" (click)="appService.redirectToShoppingCartPage()">
-				<small class="margin-right-5" *ngIf="appService.cartCount">Check Out</small>
-				<ion-icon class="margin-right-5" ios="ios-cart" md="md-cart"></ion-icon>
-				<small>{{appService.cartCount || "0"}}</small>
-			</span>
+			<ion-title class="margin-left-45">Admin Home</ion-title>
 		</div>
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<section class="home-wrapper" [hidden]="pageLoading">
-		<article class="home-page-top-slider placeholder-loading" [hidden]="showHomeSlider">
-			<div class="animated-background"></div>
-		</article>
-		<section id="home-page-slider" *ngIf="showHomeSlider">
-			<div id="homeSlider" class="carousel slide" data-ride="carousel" data-interval="3000" data-wrap="true">
-				<div class="carousel-inner home-page-top-slider" role="listbox">
-					<div class="carousel-item active" *ngFor="let obj of bannerImagesList" >
-						<img class="home-slider-image" src = "{{bannerImagesList[0].src}}"/>
-					</div>
-					<div class="carousel-item" *ngFor="let obj of bannerImagesList.slice(1,bannerImagesList.length)" >
-						<img class="home-slider-image" src = "{{obj.src}}"/>
-					</div>
-				</div>
-				<a class="carousel-control-prev" href="#homeSlider" role="button" data-slide="prev">
-				  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				  <span class="sr-only">Previous</span>
-				</a>
-				<a class="carousel-control-next" href="#homeSlider" role="button" data-slide="next">
-				  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				  <span class="sr-only">Next</span>
-				</a>
-			  </div>
-		</section>
-		<section class="card-section" [hidden]="pageLoading">
-			<h2 class="card-section-title"> Shop By Category</h2>
-			<ion-scroll scrollX="true" class="card-section-wrapper">
-				<div class="disp-inline-block all-items">
-			 		<button ion-button color="secondary" round (click)="redirectToCategory()">All<br/>Categories</button>
-				</div>
-				<div class="disp-inline-block" *ngIf="categoriesList && categoriesList.length">
-					<div class="each-row">
-						<button *ngFor = "let category of categoriesList.slice(0,(categoriesList.length)/2)" ion-button color="secondary" round (click)="redirectToCategory(category)">{{category.name}}</button>
-					</div>
-					<div class="each-row">
-						<button *ngFor = "let category of categoriesList.slice((categoriesList.length)/2,categoriesList.length-1)" ion-button color="secondary" round (click)="redirectToCategory(category)">{{category.name}}</button>
-					</div>
-				</div>
-			</ion-scroll>
-		</section>
-		<section class="card-section" [hidden]="pageLoading">
-			<h2 class="card-section-title"> Shop By Brand</h2>
-			<ion-scroll scrollX="true" class="card-section-wrapper">
-				<div class="disp-inline-block all-items">
-			 		<button ion-button color="secondary" round (click)="redirectToBrand()">All<br/>Brands</button>
-				</div>
-				<div class="disp-inline-block" *ngIf="brandsList && brandsList.length">
-					<div class="each-row">
-						<button *ngFor = "let brand of brandsList.slice(0,(brandsList.length-1)/2)" ion-button color="secondary" round (click)="redirectToBrand(brand)">{{brand.name}}</button>
-					</div>
-					<div class="each-row">
-						<button *ngFor = "let brand of brandsList.slice((brandsList.length-1)/2,brandsList.length-1)" ion-button color="secondary" round (click)="redirectToBrand(brand)">{{brand.name}}</button>
-					</div>
-				</div>
-			</ion-scroll>
-		</section>
-		<section class="card-section" [hidden]="pageLoading">
-			<div class="card-section-header">
-				<h2 class="card-section-title disp-inline-block pull-left"> New Arrivals</h2>
-				<button ion-button outline class="pull-right view-all-button margin-right-10" color="danger" (click)="redirectWithSort(3)">View all </button>
-			</div>
-			<ion-scroll scrollX="true" class="card-section-lg-wrapper">
-				<div class="card-section-inner-wrapper">
-					<ion-col class="listing-card-outer-wrapper" *ngFor="let item of newArrivalsList">
-						<cracker-item [data]="item"></cracker-item>
-					</ion-col>
-				</div>
-			</ion-scroll>
-		</section>
-		<section class="card-section" [hidden]="pageLoading">
-			<div class="card-section-header">
-				<h2 class="card-section-title disp-inline-block pull-left"> Discounts</h2>
-				<button ion-button outline class="pull-right view-all-button margin-right-10" color="danger" (click)="redirectWithSort(4)">View all </button>
-			</div>
-			<ion-scroll scrollX="true" class="card-section-lg-wrapper">
-				<div class="card-section-inner-wrapper">
-					<ion-col class="listing-card-outer-wrapper" *ngFor="let item of discountList">
-						<cracker-item [data]="item"></cracker-item>
-					</ion-col>
-				</div>
-			</ion-scroll>
-		</section>
-	</section>
+	<ion-list inset>
+		<button ion-item (click)="redirectToPage('categories')">Manage Categories</button>
+		<button ion-item (click)="redirectToPage('brands')">Manage Brands</button>
+		<button ion-item (click)="redirectToPage('products')">Manage Products</button>
+		<button ion-item (click)="redirectToPage('orders')">Manage Orders</button>
+	  </ion-list>
 </ion-content>

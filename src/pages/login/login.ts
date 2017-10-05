@@ -75,8 +75,8 @@ export class LoginPage {
       serviceUrl = this.appService.getBaseUrl()+"/admin/login";
 
   		var request = {
-            data: userName,
-            password: this.loginObj.pwd
+            data: "Admin",//userName,
+            password: "password"//this.loginObj.pwd
         };
 		  this.http
 		  	.post(serviceUrl, request)
@@ -177,7 +177,8 @@ export class LoginPage {
     disableLogin(){
       var valid = Boolean(this.loginObj.mobileNo) && Boolean(this.loginObj.pwd)
                   && !this.loginObj.mobileNoInvalid && !this.loginObj.pwdInvalid ;
-      return !valid;
+      //return !valid;
+      return false;
     }
 
     disableSignup(){

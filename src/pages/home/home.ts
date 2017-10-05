@@ -5,6 +5,9 @@ import { Events } from 'ionic-angular';
 import { CrackerItem } from '../product/product';
 import { ListingPage } from '../listing/listing';
 import { AppService } from "../../app/app.service";
+import { OrderHistoryPage } from '../orders/orders';
+import { CategoriesPage } from '../categories/categories';
+import { BrandsPage } from '../brands/brands';
 
 @Component({
   	selector: 'page-home',
@@ -167,6 +170,29 @@ export class HomePage {
   			sortId : sortId
    		};
   		this.navCtrl.push(ListingPage,[filterEntity]);
-  	}
+	  }
+
+	redirectToPage(module){
+		switch(module){
+			case "categories":
+				this.navCtrl.push(CategoriesPage);
+				break;
+			case "brands":
+			this.navCtrl.push(BrandsPage);
+				break;
+			case "products":
+				this.navCtrl.push(ListingPage);
+				break;
+			case "orders":
+				this.navCtrl.push(OrderHistoryPage);
+				break;
+			default:
+				this.navCtrl.push(OrderHistoryPage);
+				break;
+
+		}
+	}
+
+
 
 }

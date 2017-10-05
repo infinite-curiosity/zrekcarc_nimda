@@ -5,6 +5,7 @@ import { Events } from 'ionic-angular';
 import { DetailsPage } from '../details/details';
 import { AppService } from "../../app/app.service";
 import {Observable} from 'rxjs/Observable';
+import { ProductCreatePage } from '../createproduct/createproduct';
 
 let self;
 
@@ -150,7 +151,7 @@ export class CrackerItem {
 		});
 
 		/*toast.onDidDismiss(() => {
-			console.log('Dismissed toast');
+
 		});*/
 
 		toast.present();
@@ -165,6 +166,11 @@ export class CrackerItem {
   		product.updateCart = this.updateCart;
   		product.presentToast = this.presentToast;
   		this.navCtrl.push(DetailsPage,product);
-  	}
+	}
+
+	editProductDetails(product){
+		this.navCtrl.push(ProductCreatePage,product);
+	}
+
 
 }

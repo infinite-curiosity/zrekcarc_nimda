@@ -57,8 +57,7 @@ export class FilterComponent {
         this.brandsList = this.passedFilterInput.brandsList;
         this.onUpdateCategory(null,null);
         this.onUpdateBrand(null,null);
-        console.info("categoriesList",this.categoriesList);
-        console.info("brandsList",this.brandsList);
+
     }
 
     ngAfterViewInit(){

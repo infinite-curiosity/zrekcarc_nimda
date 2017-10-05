@@ -4,13 +4,12 @@ import {Http} from '@angular/http';
 import { PopoverController } from 'ionic-angular';
 import { AppService } from "../../app/app.service";
 import { FilterComponent } from '../filter/filter';
-import { ProductCreatePage } from '../createproduct/createproduct';
 
 @Component({
-  	selector: 'page-listing',
-  	templateUrl: 'listing.html'
+  	selector: 'manage-brands',
+  	templateUrl: 'brands.html'
 })
-export class ListingPage {
+export class BrandsPage {
 	public loadingRef;
 	public pageLoading;
 	public productList;
@@ -24,8 +23,6 @@ export class ListingPage {
 		this.productList = [];
 		this.brandsList = this.appService.getBrandsList();
 		this.categoriesList = this.appService.getCategoriesList();
-		console.info("this.brandsList",this.brandsList);
-		console.info("this.categoriesList",this.categoriesList);
 		this.loadingRef = this.appService.getLoadingRef();
 		this.sortSelectOptions = {
 		  title: 'Sort By'
@@ -183,9 +180,5 @@ export class ListingPage {
 	   		};
 	   		this.fetchData([filterEntitySort]);
 		}
-	}
-
-	createProduct(){
-		this.navCtrl.push(ProductCreatePage);
 	}
 }

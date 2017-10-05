@@ -68,7 +68,7 @@ export class WishlistPage {
 		});
 
 		/*toast.onDidDismiss(() => {
-			console.log('Dismissed toast');
+
 		});*/
 
 		toast.present();
