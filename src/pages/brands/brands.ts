@@ -4,6 +4,8 @@ import {Http} from '@angular/http';
 import { PopoverController } from 'ionic-angular';
 import { AppService } from "../../app/app.service";
 import { FilterComponent } from '../filter/filter';
+import { ModalController } from 'ionic-angular';
+import { ModalPage } from '../bcmodal/bcmodal';
 
 @Component({
   	selector: 'manage-brands',
@@ -18,38 +20,39 @@ export class BrandsPage {
 	public sortSelectOptions;
 	public sortOptions;
 	public sortOrder;
+	public entityType;
+	public entityList;
 
-	constructor(public navCtrl: NavController, private http: Http, public navParams: NavParams, public appService : AppService, public popoverCtrl: PopoverController) {
+	constructor(public navCtrl: NavController, private http: Http, public navParams: NavParams, public appService : AppService, public popoverCtrl: PopoverController,public modalCtrl: ModalController) {
 		this.productList = [];
-		this.brandsList = this.appService.getBrandsList();
-		this.categoriesList = this.appService.getCategoriesList();
+		this.entityType = this.navParams.data.entityType;
+		//this.brandsList = this.appService.getBrandsList();
+		//this.categoriesList = this.appService.getCategoriesList();
+		if(this.entityType=="Brand"){
+			this.entityList = this.appService.getBrandsList();
+		}
+		else{
+			this.entityList = this.appService.getCategoriesList();
+		}
 		this.loadingRef = this.appService.getLoadingRef();
-		this.sortSelectOptions = {
-		  title: 'Sort By'
-		};
-		this.sortOptions = [
-			{
-				id : 1,
-				title : 'Low to High',
-			},
-			{
-				id : 2,
-				title : 'High to Low',
-			},
-			{
-				id : 3,
-				title : 'New Arrivals',
-			},
-			{
-				id : 4,
-				title : 'Discount Rate',
-			}
-			// {
-			// 	id : 0,
-			// 	title : 'None'
-			// }
-		];
-		this.fetchData(this.navParams.data);
+		//this.fetchData(this.navParams.data);
+	}
+
+	onClickEntity(entity){
+		if(!entity){
+			entity = {};
+			entity.isCreate = true;
+		}
+		else{
+			entity.isCreate = false;
+		}
+		entity.entityType = this.entityType;
+		this.presentModal(entity);
+	}
+
+	presentModal(entity) {
+		let modal = this.modalCtrl.create(ModalPage,entity);
+		modal.present();
 	}
 
 	ionViewWillEnter(){

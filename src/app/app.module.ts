@@ -28,6 +28,7 @@ import { FilterComponent } from '../pages/filter/filter';
 import { CategoriesPage } from '../pages/categories/categories';
 import { BrandsPage } from '../pages/brands/brands';
 import { ProductCreatePage } from '../pages/createproduct/createproduct';
+import { ModalPage } from '../pages/bcmodal/bcmodal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -51,7 +52,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     FilterComponent,
     CategoriesPage,
     BrandsPage,
-    ProductCreatePage
+    ProductCreatePage,
+    ModalPage
   ],
   imports: [
     BrowserModule,
@@ -83,7 +85,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     FilterComponent,
     CategoriesPage,
     BrandsPage,
-    ProductCreatePage
+    ProductCreatePage,
+    ModalPage
   ],
   providers: [
     AppService,

@@ -74,10 +74,14 @@ export class LoginPage {
       var serviceUrl = this.appService.getBaseUrl()+"/user/login";
       serviceUrl = this.appService.getBaseUrl()+"/admin/login";
 
-  		var request = {
-            data: "Admin",//userName,
-            password: "password"//this.loginObj.pwd
-        };
+      var request = {
+          data: userName,
+          password: this.loginObj.pwd
+      };
+      // request = {
+      //     data: "Admin",
+      //     password: "password"
+      // };
 		  this.http
 		  	.post(serviceUrl, request)
 		  	.map(res => res.json())

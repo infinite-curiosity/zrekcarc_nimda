@@ -159,14 +159,14 @@ export class MyApp {
         if(!(this.appService.getUserId() > 0)){
             this.events.publish('showLogInScreen',true);
         }	else{
-          this.nav.push(CategoriesPage);
+          this.nav.push(BrandsPage,{entityType:"Category"});
         }
         break;
       case "brandsPage":
         if(!(this.appService.getUserId() > 0)){
             this.events.publish('showLogInScreen',true);
         }	else{
-          this.nav.push(BrandsPage);
+          this.nav.push(BrandsPage,{entityType:"Brand"});
         }
         break;
       case "productCreatePage":
@@ -180,7 +180,8 @@ export class MyApp {
         if(!(this.appService.getUserId() > 0)){
             this.events.publish('showLogInScreen',true);
         }	else{
-          this.nav.push(ProductCreatePage);
+          //this.nav.push(ProductCreatePage);
+          window.alert("Work In Progress");
         }
         break;
       case "signupPage":

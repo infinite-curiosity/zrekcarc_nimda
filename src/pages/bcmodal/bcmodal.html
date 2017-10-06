@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-navbar>
+      <!-- <ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
+      <div class="disp-flex-header"> -->
+        <ion-title>{{entity.name}}</ion-title>
+      <!-- </div> -->
+    </ion-navbar>
+  </ion-header>
+
+<ion-content padding>
+    <ion-list margin>
+      <ion-item padding>
+        <ion-label floating>{{entity.entityType}} Name </ion-label>
+        <ion-input type="text" [(ngModel)]="entity.name"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label>Enabled</ion-label>
+          <ion-toggle checked="true"></ion-toggle>
+        </ion-item>
+    </ion-list>
+    <button ion-button block color="secondary" (click)="createOrUpdateEntity()" style="width: 95%;height:50px;margin:10px auto;">
+        <span *ngIf="isCreateEntity">Create {{entity.entityType}}</span>
+        <span *ngIf="!isCreateEntity">Update {{entity.entityType}}</span>
+    </button>
+    <button ion-button block clear color="danger" (click)="doCancel()" style="width: 95%;height:50px;margin:10px auto;">
+        Cancel
+    </button>
+</ion-content>

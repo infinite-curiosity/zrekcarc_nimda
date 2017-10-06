@@ -2,41 +2,20 @@
 	<ion-navbar>
 		<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
 		<div class="disp-flex-header">
-			<ion-title>Manage Brands</ion-title>
+			<ion-title>Manage {{entityType}}</ion-title>
 		</div>
 	</ion-navbar>
 </ion-header>
 <ion-content>
 	<!-- <button ion-button block menuToggle>Toggle Menu</button> -->
 	<section class="listing-wrapper">
-		<section class="sort-and-filter-wrapper">
-			<button ion-button rounded class="sort-button">
-				<ion-label><ion-icon class="sort-icon" name="swap"></ion-icon>Sort</ion-label>
-				<ion-select [(ngModel)]="sortOrder" [selectOptions]="sortSelectOptions" (ionChange)="onSortAction(sortOrder)" okText="Sort" cancelText="Dismiss">
-					<ion-option *ngFor="let option of sortOptions" [value]="option">{{option.title}}</ion-option>
-				</ion-select>
+		<button ion-button block (click)="onClickEntity()" style="width: 95%;height:50px;margin:10px auto;">
+			+ Add New {{entityType}}
+		</button>
+		<ion-list inset>
+			<button ion-item *ngFor="let entity of entityList" (click)="onClickEntity(entity)">
+				{{ entity.name }}
 			</button>
-			<button ion-button rounded class="filter-button" (click)="openFilterPopover()"><ion-icon class="filter-icon" name="funnel"></ion-icon>Filter</button>
-			<!-- <div class="sort-wrapper disp-inline-block selection-box">
-				<ion-item>
-					<ion-label class="sort-button">Sort By</ion-label>
-					<ion-select [(ngModel)]="sortOrder">
-						<ion-option value="l2h">Low to High</ion-option>
-						<ion-option value="h2l">High to Low</ion-option>
-						<ion-option value="recent">Recently Added</ion-option>
-						<ion-option value="discount">Discount Rate</ion-option>
-					</ion-select>
-				</ion-item>
-			</div> -->
-		</section>
-		<div class="card-section-lg-wrapper">
-			<div class="card-section-inner-wrapper">
-				<div class="row-wrapper" [hidden]="pageLoading">
-					<div class="listing-card-outer-wrapper" *ngFor="let item of productList">
-						<cracker-item [data]="item"></cracker-item>
-					</div>
-				</div>
-			</div>
-		</div>
+		</ion-list>
 	</section>
 </ion-content>
