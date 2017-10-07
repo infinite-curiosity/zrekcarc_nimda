@@ -8,6 +8,10 @@ import { NavController, NavParams, ViewController  } from 'ionic-angular';
             <ion-title>Filter</ion-title>
         </ion-navbar>
     </ion-header>
+    <section class="action-bar disp-flex padding" style="justify-content:space-around;margin:20px">
+        <button ion-button rounded color="danger" style="flex-grow:1;margin-right:10px;" (click)="cancelFilter()">Cancel</button>
+        <button ion-button rounded color="secondary" style="flex-grow:1" (click)="applyFilter()">Apply</button>
+    </section>
     <ion-list *ngIf="categoriesList && allCategories">
         <ion-list-header>Categories</ion-list-header>
         <ion-item>
@@ -30,10 +34,6 @@ import { NavController, NavParams, ViewController  } from 'ionic-angular';
             <ion-checkbox [(ngModel)]="brand.checked" (click)="onUpdateBrand($event,brand)"></ion-checkbox>
         </ion-item>
     </ion-list>
-    <section class="action-bar disp-flex margin-bottom-10" style="justify-content:space-around;padding-bottom: 20px;">
-        <button ion-button rounded color="secondary" style="flex-grow:1" (click)="applyFilter()">Apply</button>
-        <button ion-button rounded color="danger" style="flex-grow:1" (click)="cancelFilter()">Cancel</button>
-    </section>
   `
 })
 export class FilterComponent {

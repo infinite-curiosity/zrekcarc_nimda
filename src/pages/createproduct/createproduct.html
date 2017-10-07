@@ -37,6 +37,23 @@
 					<ion-option *ngFor="let option of categoriesList" [value]="option">{{option.name}}</ion-option>
 				</ion-select>
 			</ion-item>
+			<ion-item>
+				<div padding *ngIf="productBean && productBean.productImages && productBean.productImages.length">
+					<div>Product Images </div>
+					<div *ngFor="let image of productBean.productImages">
+						<div class="mdl-textfield">
+							<input class="mdl-textfield__input" type="text" [(ngModel)]="image.url"/>
+						</div>
+					</div>
+					<button ion-button (click)="addImage()">+ Add another image</button>
+				</div>
+			</ion-item>
+			<ion-item class="disp-none">
+				<div>
+					<input type="file" id="productImage" style="visibility:hidden" accept=".jpg, .jpeg, .png, .gif" multiple />
+					<button (click)="uploadButtonOnClick()" ion-button block style="width: 95%;height:50px;margin:10px auto;">Upload Image</button>
+				</div>
+			</ion-item>
 		</ion-list>
 		<button ion-button block (click)="createProduct()" style="width: 95%;height:50px;margin:10px auto;">
 			<span *ngIf="isCreatePage">Create Product</span>

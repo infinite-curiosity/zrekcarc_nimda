@@ -19,6 +19,12 @@ export class ListingPage {
 	public sortSelectOptions;
 	public sortOptions;
 	public sortOrder;
+	public prevRouteParams;
+	public lazyLoadOffset = 0;
+	public lazyLoadLimit = 10;
+	public fetchDataObservable;
+	public fetchDataInProgress;
+	public totalProductCount;
 
 	constructor(public navCtrl: NavController, private http: Http, public navParams: NavParams, public appService : AppService, public popoverCtrl: PopoverController) {
 		this.productList = [];
@@ -52,25 +58,21 @@ export class ListingPage {
 			// 	title : 'None'
 			// }
 		];
-		this.fetchData(this.navParams.data);
+		this.fetchData(this.navParams.data,false, null);
 	}
 
-	ionViewWillEnter(){
-
-	}
-
-	ionViewWillLeave(){
-
-	}
-
-  	fetchData(routeParams){
-		this.pageLoading = true;
-		this.loadingRef.present();
+  	fetchData(routeParams, islazyFetch, infiniteScroll){
+		this.prevRouteParams = routeParams;
+		this.fetchDataInProgress = true;
+		if(!islazyFetch){
+			this.pageLoading = true;
+			this.loadingRef.present();
+		}
 		var serviceUrl = this.appService.getBaseUrl()+"/store/getProductList";
 		var request = {
 			uid: this.appService.getUserId(),
-			offset:0,
-			count:20,
+			offset: this.lazyLoadOffset,
+			count: this.lazyLoadLimit,
 			filter: {
 				sort:1,
 				category: this.getIdsFromList(this.categoriesList, false),
@@ -102,17 +104,26 @@ export class ListingPage {
 				request.filter.category = [routeParams.id];
 			}
 		}
-		this.http
-			.post(serviceUrl,request)
-			.map(res => res.json())
-			.subscribe(res => {
-				this.processListingData(res.data);
-				/*if(res.response===200){
-					this.events.publish('logIn', true);
-				}else{
-					this.events.publish('logIn', true);//false);
-				}		  				  		  		*/
+		this.fetchDataObservable = this.http.post(serviceUrl,request).map(res => res.json());
+		this.fetchDataObservable.subscribe(res => {
+			this.processListingData(res.data, islazyFetch,infiniteScroll);
+		});
+	}
+
+	processListingData(data,islazyFetch,infiniteScroll){
+		this.totalProductCount = data.totalProductCount;
+		if(islazyFetch && this.productList && Array.isArray(this.productList) && this.productList.length){
+			data.products.forEach((item)=>{
+				this.productList.push(item);
 			});
+			infiniteScroll.complete();
+		}
+		else{
+			this.productList = data.products;
+			this.pageLoading = false;
+			this.loadingRef.dismiss();
+		}
+		this.fetchDataInProgress = false;
   	}
 
   	getIdsFromList(list, isFilteredList){
@@ -138,12 +149,6 @@ export class ListingPage {
   		});
   	}
 
-  	processListingData(data){
-		this.productList = data.products;
-		this.pageLoading = false;
-		this.loadingRef.dismiss();
-  	}
-
   	openFilterPopover(myEvent) {
 		let filterData = {
 			categoriesList : this.categoriesList,
@@ -163,7 +168,7 @@ export class ListingPage {
 		  			field : 'brand',
 		  			itemList : popoverData.brandsList
 		   		};
-		   		this.fetchData([filterEntityCategory,filterEntityBrand]);
+		   		this.fetchData([filterEntityCategory,filterEntityBrand],false,null);
 			}
 			else{
 				// do nothing
@@ -181,11 +186,24 @@ export class ListingPage {
 	  			field : 'sort',
 	  			sortId : option.id
 	   		};
-	   		this.fetchData([filterEntitySort]);
+	   		this.fetchData([filterEntitySort],false,null);
 		}
 	}
 
 	createProduct(){
 		this.navCtrl.push(ProductCreatePage);
 	}
+
+	doInfinite(infiniteScroll) {
+		if(this.productList && this.productList.length){
+			this.lazyLoadOffset += this.lazyLoadLimit;
+			var fetchNotOver =  this.productList.length < this.totalProductCount;
+			if(fetchNotOver && !this.fetchDataInProgress){
+				this.fetchData(this.prevRouteParams,true,infiniteScroll);
+			}
+			else{
+				infiniteScroll.enable(false);
+			}
+		}
+	  }
 }

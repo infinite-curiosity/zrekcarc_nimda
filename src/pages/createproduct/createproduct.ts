@@ -34,6 +34,7 @@ export class ProductCreatePage {
 		this.brandsList = this.appService.getBrandsList();
 		this.categoriesList = this.appService.getCategoriesList();
 		this.generateProductBean(this.navParams.data);
+		this.addImage();
 		this.productList = [];
 		this.loadingRef = this.appService.getLoadingRef();
 	}
@@ -61,6 +62,7 @@ export class ProductCreatePage {
 				price : null,
 				discount : null,
 				inStock : true,
+				productImages : [],
 				computedNetPrice : null,
 				isPriceValid : true,
 				isDiscountValid : true
@@ -74,6 +76,7 @@ export class ProductCreatePage {
 				category : routeParams.category,
 				price : routeParams.price,
 				discount : routeParams.discountPercentage,
+				productImages : [],
 				inStock : routeParams.isInStock,
 				computedNetPrice : null,
 				isPriceValid : true,
@@ -122,14 +125,17 @@ export class ProductCreatePage {
 	disableSave(){
 		var valid = this.productBean.isPriceValid && this.productBean.isDiscountValid;
 		return !valid;
-	  }
-
-	ionViewWillEnter(){
-
 	}
 
-	ionViewWillLeave(){
+	addImage(){
+		var obj = {
+			url : undefined
+		}
+		this.productBean.productImages.push(obj);
+	}
 
+	uploadButtonOnClick(){
+		document.getElementById("productImage").click();
 	}
 
   	fetchData(routeParams){

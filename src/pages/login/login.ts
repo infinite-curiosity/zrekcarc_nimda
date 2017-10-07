@@ -78,10 +78,10 @@ export class LoginPage {
           data: userName,
           password: this.loginObj.pwd
       };
-      // request = {
-      //     data: "Admin",
-      //     password: "password"
-      // };
+      request = {
+          data: "Admin",
+          password: "password"
+      };
 		  this.http
 		  	.post(serviceUrl, request)
 		  	.map(res => res.json())
