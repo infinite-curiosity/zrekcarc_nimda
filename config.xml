@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.crackerzAdmin" version="0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.crackerzAdmin" version="0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Dumeel Crackers Admin</name>
     <description>Online Shopping for Crackers</description>
     <author email="foxbyteinnovations@gmail.com" href="http://ionicframework.com/">Organic Curiosity</author>
@@ -92,4 +92,5 @@
     <engine name="android" spec="~6.1.2" />
     <allow-navigation href="http://192.168.1.3:8100" />
     <engine name="browser" spec="~4.1.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.6.3" />
 </widget>

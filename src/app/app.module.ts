@@ -34,6 +34,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 //import {Observable} from "rxjs/Rx";
 
+import { File } from '@ionic-native/file';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -92,6 +95,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AppService,
     StatusBar,
     SplashScreen,
+    File, FileTransfer,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

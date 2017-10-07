@@ -5,9 +5,12 @@ import { PopoverController } from 'ionic-angular';
 import { AppService } from "../../app/app.service";
 import { FilterComponent } from '../filter/filter';
 
+import { File } from '@ionic-native/file';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+
 @Component({
   	selector: 'create-product',
-  	templateUrl: 'createProduct.html'
+	templateUrl: 'createProduct.html'
 })
 export class ProductCreatePage {
 	public loadingRef;
@@ -28,14 +31,30 @@ export class ProductCreatePage {
 	};
 	public productBean;
 	public isCreatePage;
+	public fileTransfer: FileTransferObject = this.transfer.create();
 
-	constructor(public navCtrl: NavController, private http: Http, public navParams: NavParams, public appService : AppService, public popoverCtrl: PopoverController) {
+	constructor(public navCtrl: NavController, private http: Http, public navParams: NavParams, public appService : AppService, public popoverCtrl: PopoverController, public transfer: FileTransfer, public file: File) {
 		console.info("this.navParams.data",this.navParams.data);
 		this.brandsList = this.appService.getBrandsList();
 		this.categoriesList = this.appService.getCategoriesList();
 		this.generateProductBean(this.navParams.data);
 		this.productList = [];
 		this.loadingRef = this.appService.getLoadingRef();
+	}
+
+	upload () {
+		var options: FileUploadOptions = {
+			fileKey: 'file',
+			fileName: 'name.jpg',
+			headers: {}
+			};
+
+		this.fileTransfer.upload('<file path>', '<api endpoint>', options, true)
+			.then((data) => {
+			// success
+			}, (err) => {
+			// error
+			})
 	}
 
 	isEmptyObj(obj){
