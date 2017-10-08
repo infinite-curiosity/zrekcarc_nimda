@@ -30,7 +30,7 @@ $gs-32 : #fff;
 $youtube-red:#cd201f;
 $yahoo-vioet : #410093;
 $amazon-blue : #232f3e;
-$theme-base : $amazon-blue; //$yahoo-vioet;//$aqua-theme;
+$theme-base : $yahoo-vioet;//$aqua-theme;
 $theme-secondary : $youtube-red;//$pink-theme;
 
 @import "./src/pages/loading/loading.scss";
@@ -115,7 +115,7 @@ $theme-secondary : $youtube-red;//$pink-theme;
     padding: 5px;
 }
 .toolbar-background{
-	background : $theme-base !important;
+	background : $amazon-blue !important; /*$theme-base !important;*/
 }
 .toolbar-title{
 	color : #fff !important;
@@ -129,7 +129,7 @@ $theme-secondary : $youtube-red;//$pink-theme;
 .app-menu-wrapper{
 	ion-list .item, .scroll-content{
 		background : $dark-grey-theme !important;
-		color : $theme-base;
+		color : $amazon-blue; /*$theme-base*/
 		font-weight: bold;
 	}
 }

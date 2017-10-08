@@ -3,22 +3,20 @@
 		<ion-icon menuToggle name="menu" class="app-menu-toggle"></ion-icon>
 		<div class="disp-flex-header">
 			<ion-title>Manage Products</ion-title>
-			<section class="sort-and-filter-wrapper">
-				<button ion-button rounded class="sort-button">
-					<ion-label><ion-icon class="sort-icon" name="swap"></ion-icon></ion-label>
-						<!-- Sort -->
-					<ion-select [(ngModel)]="sortOrder" [selectOptions]="sortSelectOptions" (ionChange)="onSortAction(sortOrder)" okText="Sort" cancelText="Dismiss">
-						<ion-option *ngFor="let option of sortOptions" [value]="option">{{option.title}}</ion-option>
-					</ion-select>
-				</button>
-				<button ion-button rounded class="filter-button" (click)="openFilterPopover()"><ion-icon class="filter-icon" name="funnel"></ion-icon></button>
-				<!-- Filter -->
-			</section>
 		</div>
 	</ion-navbar>
 </ion-header>
 <ion-content>
 	<section class="listing-wrapper">
+		<section class="sort-and-filter-wrapper">
+				<button ion-button rounded class="sort-button">
+					<ion-label><ion-icon class="sort-icon" name="swap"></ion-icon>Sort</ion-label>
+					<ion-select [(ngModel)]="sortOrder" [selectOptions]="sortSelectOptions" (ionChange)="onSortAction(sortOrder)" okText="Sort" cancelText="Dismiss">
+						<ion-option *ngFor="let option of sortOptions" [value]="option">{{option.title}}</ion-option>
+					</ion-select>
+				</button>
+				<button ion-button rounded class="filter-button" (click)="openFilterPopover()"><ion-icon class="filter-icon" name="funnel"></ion-icon>Filter</button>
+			</section>
 		<button ion-button block (click)="createProduct()" style="width: 95%;height:50px;margin:10px auto;">+ Add Product</button>
 		<div class="card-section-lg-wrapper">
 			<div class="card-section-inner-wrapper">

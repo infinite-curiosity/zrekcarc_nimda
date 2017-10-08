@@ -12,34 +12,41 @@ export class OrderHistoryPage {
 	public totalOrdersCount;
 	public loadingRef;
 	public orderStatusConstants;
+	public lazyLoadOffset = 0;
+	public lazyLoadLimit = 10;
+	public fetchDataObservable;
+	public fetchDataInProgress;
 
 	constructor(public navCtrl: NavController, private http: Http, public appService: AppService, private toastCtrl: ToastController) {
 		this.list = [];
 		this.loadingRef = this.appService.getLoadingRef();
 		this.orderStatusConstants = this.getOrderStatusConstants();
-		this.fetchData();
+		this.fetchData(false,null);
 	}
 
 	ngAfterViewInit() {
-		/*for (var i=0;i<5;i++){
-			this.list.push({id:i,cartQuantity:i+1});
-		}*/
+
 	}
 
-  	fetchData(){
-		this.loadingRef.present();
+	fetchData(islazyFetch, infiniteScroll){
+		this.fetchDataInProgress = true;
+		if(!islazyFetch){
+			this.loadingRef.present();
+		}
 		var request, serviceUrl;
 		if(this.appService.getIsAdmin()){
 			 request = {
-				uid: 1
+				uid: this.appService.getUserId(),
+				offset: this.lazyLoadOffset,
+				count: this.lazyLoadLimit
 			};
 			serviceUrl = this.appService.getBaseUrl()+"/admin/getAdminOrdersListBeta";
 		}
 		else{
 			request = {
 				uid: this.appService.getUserId(),
-				offet:0,
-				count: 200
+				offset: this.lazyLoadOffset,
+				count: this.lazyLoadLimit,
 			};
 			serviceUrl = this.appService.getBaseUrl()+"/store/getOrdersList";
 		}
@@ -47,17 +54,21 @@ export class OrderHistoryPage {
 			.post(serviceUrl,request)
 			.map(res => res.json())
 			.subscribe(res => {
-				if(res.response===200){
-
-					this.list = (res.data && res.data.orders) ? res.data.orders : [];
-					this.list.forEach(item => {
-						item.orderStatusText = this.getOrderStatusText(item.status);
+				this.totalOrdersCount = res.data.totalOrdersCount;
+				if(islazyFetch && this.list && Array.isArray(this.list) && this.list.length){
+					res.data.orders.forEach((item)=>{
+						this.list.push(item);
 					});
-					this.totalOrdersCount = res.data.totalOrdersCount;
-				}else{
-
+					infiniteScroll.complete();
 				}
-				this.loadingRef.dismiss();
+				else{
+					this.list = (res.data && res.data.orders) ? res.data.orders : [];
+					this.loadingRef.dismiss();
+				}
+				this.list.forEach(item => {
+					item.orderStatusText = this.getOrderStatusText(item.status);
+				});
+				this.fetchDataInProgress = false;
 			});
   	}
 
@@ -133,7 +144,7 @@ export class OrderHistoryPage {
 		  .map(res => res.json())
 		  .subscribe(res => {
 			  if(res.response===200){
-				  this.fetchData();
+				this.fetchData(false,null);
 				  this.presentToast("Order status changed successfully");
 			  }else{
 
@@ -155,7 +166,7 @@ export class OrderHistoryPage {
 			.map(res => res.json())
 			.subscribe(res => {
 				if(res.response===200){
-					this.fetchData();
+					this.fetchData(false,null);
 					this.presentToast("Order #"+ order.orderId+" has been cancelled");
 				}else{
 
@@ -229,12 +240,19 @@ export class OrderHistoryPage {
 			position: this.appService.getToastSettings().position
 		});
 
-		/*toast.onDidDismiss(() => {
-
-		});*/
-
 		toast.present();
 	}
 
-
+	doInfinite(infiniteScroll) {
+		if(this.list && this.list.length){
+			this.lazyLoadOffset += this.lazyLoadLimit;
+			var fetchNotOver =  this.list.length < this.totalOrdersCount;
+			if(fetchNotOver && !this.fetchDataInProgress){
+				this.fetchData(true,infiniteScroll);
+			}
+			else{
+				infiniteScroll.enable(false);
+			}
+		}
+	}
 }
